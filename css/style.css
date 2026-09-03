@@ -100,3 +100,48 @@
 [data-theme="dark"] {
     color-scheme: dark;
 }
+/* =========================================
+   SIZNORA - DARK MODE ALL FORM CONTROLS FIX
+   ========================================= */
+
+[data-theme="dark"] .tool-page input,
+[data-theme="dark"] .tool-page select,
+[data-theme="dark"] .tool-page textarea {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background-color: #0b0e1d !important;
+    border-color: #343a5a !important;
+    caret-color: #ffffff !important;
+}
+
+/* Select selected value */
+[data-theme="dark"] .tool-page select {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Select dropdown */
+[data-theme="dark"] .tool-page select option {
+    color: #ffffff !important;
+    background-color: #0b0e1d !important;
+}
+
+/* Placeholder */
+[data-theme="dark"] .tool-page input::placeholder,
+[data-theme="dark"] .tool-page textarea::placeholder {
+    color: #aeb5cb !important;
+    -webkit-text-fill-color: #aeb5cb !important;
+    opacity: 1 !important;
+}
+
+/* Number inputs */
+[data-theme="dark"] .tool-page input[type="number"] {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Text inputs */
+[data-theme="dark"] .tool-page input[type="text"] {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
