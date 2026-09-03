@@ -1,0 +1,9 @@
+{
+  "name":"Siznora — Smaller Files. Better Performance.",
+  "short_name":"Siznora",
+  "start_url":"./index.html",
+  "display":"standalone",
+  "background_color":"#f8f9ff",
+  "theme_color":"#6d4aff",
+  "description":"Fast browser-based PDF and image tools."
+}
