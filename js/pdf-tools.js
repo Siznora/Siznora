@@ -19,37 +19,41 @@
  async function organize(){const {PDFDocument,degrees}=await lib();const src=await PDFDocument.load(await files[0].arrayBuffer());const order=[...document.querySelectorAll(".page-card")].map(x=>+x.dataset.page);const out=await PDFDocument.create();const ps=await out.copyPages(src,order);ps.forEach((p,i)=>{const card=document.querySelector(`.page-card[data-page="${order[i]}"]`);const r=card?.querySelector("select");if(r&&+r.value)p.setRotation(degrees(+r.value));if(!card?.querySelector("input").checked)return;out.addPage(p)});const blob=new Blob([await out.save()],{type:"application/pdf"});links([{url:URL.createObjectURL(blob),name:"Siznora_Organized.pdf",label:"Download Organized PDF"}])}
  async function compressPDF(){const {PDFDocument}=await lib();const original=files[0];setStatus("Reading PDF...");const src=await PDFDocument.load(await original.arrayBuffer());setStatus("Generating optimized PDF...");const out=await PDFDocument.create();const ps=await out.copyPages(src,src.getPageIndices());ps.forEach(p=>out.addPage(p));const bytes=await out.save({useObjectStreams:true,addDefaultPage:false});const blob=new Blob([bytes],{type:"application/pdf"});const saved=Math.max(0,100-(blob.size/original.size*100));result.hidden=false;result.innerHTML=`<h3>✓ Processing complete</h3><p>Original: ${Siznora.fmtSize(original.size)}<br>Output: ${Siznora.fmtSize(blob.size)}<br>Actual size change: ${saved.toFixed(1)}% ${saved>=0?"saved":"larger"}</p><p>${saved<=0?"This PDF could not be reduced by the browser-side method. No fake saving percentage is shown.":"The output was generated locally."}</p><a class="download" href="${URL.createObjectURL(blob)}" download="Siznora_Compressed.pdf">Download PDF</a>`}
  async function protect(){
-  const password=document.getElementById("password")?.value||"";
-  const confirmPassword=document.getElementById("confirmPassword")?.value||"";
+  const password=document.getElementById("password")?.value || "";
+  const confirmPassword=document.getElementById("password2")?.value || "";
 
   if(!files.length) throw Error("Please select a PDF file.");
   if(!password) throw Error("Please enter a password.");
-  if(password!==confirmPassword) throw Error("Passwords do not match.");
+  if(password !== confirmPassword) throw Error("Passwords do not match.");
 
-  if(!window.isSecureContext || !crypto?.subtle){
+  if(!window.isSecureContext || !window.crypto?.subtle){
     throw Error("AES-256 requires a secure HTTPS connection.");
+  }
+
+  if(!window.PDFEncrypt?.encryptPDF){
+    throw Error("AES-256 encryption library failed to load.");
   }
 
   setStatus("Encrypting PDF with AES-256...");
 
-  const {encryptPDF}=await import(
-    "https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-encrypt@1.2.0/+esm"
-  );
-
   const pdfBytes=new Uint8Array(await files[0].arrayBuffer());
 
-  const encrypted=await encryptPDF(pdfBytes,password,{
-    algorithm:"AES-256",
-    ownerPassword:password,
-    allowPrinting:true,
-    allowModifying:false,
-    allowCopying:false,
-    allowAnnotating:false,
-    allowFillingForms:true,
-    allowExtraction:false,
-    allowAssembly:false,
-    allowHighQualityPrint:true
-  });
+  const encrypted=await window.PDFEncrypt.encryptPDF(
+    pdfBytes,
+    password,
+    {
+      algorithm:"AES-256",
+      ownerPassword:password,
+      allowPrinting:true,
+      allowModifying:false,
+      allowCopying:false,
+      allowAnnotating:false,
+      allowFillingForms:true,
+      allowExtraction:false,
+      allowAssembly:false,
+      allowHighQualityPrint:true
+    }
+  );
 
   const blob=new Blob([encrypted],{type:"application/pdf"});
 
