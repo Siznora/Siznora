@@ -18,7 +18,49 @@
  async function watermark(){const {PDFDocument,rgb,degrees}=await lib();const src=await PDFDocument.load(await files[0].arrayBuffer());const text=document.getElementById("watermarkText").value.trim();if(!text)throw Error("Enter watermark text.");const out=await PDFDocument.create();const pages=await out.copyPages(src,src.getPageIndices());const sel=document.getElementById("wmPages").value==="all"?src.getPageIndices():parseRanges(document.getElementById("wmSelected").value,src.getPageCount());const set=new Set(sel);for(const [i,p] of pages.entries()){out.addPage(p);if(set.has(i)){const {width,height}=p.getSize();let x=width/2,y=height/2;const pos=document.getElementById("position").value;if(pos.includes("left"))x=60;if(pos.includes("right"))x=width-60;if(pos.includes("top"))y=height-60;if(pos.includes("bottom"))y=60;p.drawText(text,{x,y,size:+document.getElementById("wmSize").value,opacity:+document.getElementById("wmOpacity").value,rotate:degrees(+document.getElementById("wmRotation").value),color:rgb(.35,.25,.85),xSkew:degrees(0),ySkew:degrees(0)})}}const blob=new Blob([await out.save()],{type:"application/pdf"});links([{url:URL.createObjectURL(blob),name:"Siznora_Watermarked.pdf",label:"Download Watermarked PDF"}])}
  async function organize(){const {PDFDocument,degrees}=await lib();const src=await PDFDocument.load(await files[0].arrayBuffer());const order=[...document.querySelectorAll(".page-card")].map(x=>+x.dataset.page);const out=await PDFDocument.create();const ps=await out.copyPages(src,order);ps.forEach((p,i)=>{const card=document.querySelector(`.page-card[data-page="${order[i]}"]`);const r=card?.querySelector("select");if(r&&+r.value)p.setRotation(degrees(+r.value));if(!card?.querySelector("input").checked)return;out.addPage(p)});const blob=new Blob([await out.save()],{type:"application/pdf"});links([{url:URL.createObjectURL(blob),name:"Siznora_Organized.pdf",label:"Download Organized PDF"}])}
  async function compressPDF(){const {PDFDocument}=await lib();const original=files[0];setStatus("Reading PDF...");const src=await PDFDocument.load(await original.arrayBuffer());setStatus("Generating optimized PDF...");const out=await PDFDocument.create();const ps=await out.copyPages(src,src.getPageIndices());ps.forEach(p=>out.addPage(p));const bytes=await out.save({useObjectStreams:true,addDefaultPage:false});const blob=new Blob([bytes],{type:"application/pdf"});const saved=Math.max(0,100-(blob.size/original.size*100));result.hidden=false;result.innerHTML=`<h3>✓ Processing complete</h3><p>Original: ${Siznora.fmtSize(original.size)}<br>Output: ${Siznora.fmtSize(blob.size)}<br>Actual size change: ${saved.toFixed(1)}% ${saved>=0?"saved":"larger"}</p><p>${saved<=0?"This PDF could not be reduced by the browser-side method. No fake saving percentage is shown.":"The output was generated locally."}</p><a class="download" href="${URL.createObjectURL(blob)}" download="Siznora_Compressed.pdf">Download PDF</a>`}
- async function protect(){throw Error("Browser-side PDF encryption with the bundled PDF library is not supported. No fake protected file was generated.")}
+ async function protect(){
+  const password=document.getElementById("password")?.value||"";
+  const confirmPassword=document.getElementById("confirmPassword")?.value||"";
+
+  if(!files.length) throw Error("Please select a PDF file.");
+  if(!password) throw Error("Please enter a password.");
+  if(password!==confirmPassword) throw Error("Passwords do not match.");
+
+  if(!window.isSecureContext || !crypto?.subtle){
+    throw Error("AES-256 requires a secure HTTPS connection.");
+  }
+
+  setStatus("Encrypting PDF with AES-256...");
+
+  const {encryptPDF}=await import(
+    "https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-encrypt@1.2.0/+esm"
+  );
+
+  const pdfBytes=new Uint8Array(await files[0].arrayBuffer());
+
+  const encrypted=await encryptPDF(pdfBytes,password,{
+    algorithm:"AES-256",
+    ownerPassword:password,
+    allowPrinting:true,
+    allowModifying:false,
+    allowCopying:false,
+    allowAnnotating:false,
+    allowFillingForms:true,
+    allowExtraction:false,
+    allowAssembly:false,
+    allowHighQualityPrint:true
+  });
+
+  const blob=new Blob([encrypted],{type:"application/pdf"});
+
+  links([{
+    url:URL.createObjectURL(blob),
+    name:"Siznora_Protected.pdf",
+    label:"Download Protected PDF"
+  }]);
+
+  setStatus("AES-256 encryption complete.");
+ }
  async function jpgpdf(){const {PDFDocument}=await lib();const out=await PDFDocument.create();const size=document.getElementById("pageSize").value;const orient=document.getElementById("orientation").value;const margin=+document.getElementById("margin").value*2.83465;for(const f of files){const img=await createImageBitmap(f);let w=img.width*72/96,h=img.height*72/96;let pw=w+margin*2,ph=h+margin*2;if(size!=="original"){pw=size==="a4"?595.28:612;ph=size==="a4"?841.89:792;if(orient==="landscape")[pw,ph]=[ph,pw]}const p=out.addPage([pw,ph]);const c=document.createElement("canvas");c.width=img.width;c.height=img.height;c.getContext("2d").drawImage(img,0,0);const data=c.toDataURL("image/jpeg",.92);const bytes=await (await fetch(data)).arrayBuffer();const emb=f.type==="image/png"?await out.embedPng(bytes):await out.embedJpg(bytes);const maxw=pw-margin*2,maxh=ph-margin*2,scale=Math.min(maxw/emb.width,maxh/emb.height);p.drawImage(emb,{x:(pw-emb.width*scale)/2,y:(ph-emb.height*scale)/2,width:emb.width*scale,height:emb.height*scale})}const blob=new Blob([await out.save()],{type:"application/pdf"});links([{url:URL.createObjectURL(blob),name:"Siznora_Images.pdf",label:"Download PDF"}])}
  async function pdfjpg(){setStatus("Loading PDF renderer...");const pdfjs=await import("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.5.136/build/pdf.min.mjs");pdfjs.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.5.136/build/pdf.worker.min.mjs";const pdf=await pdfjs.getDocument({data:new Uint8Array(await files[0].arrayBuffer())}).promise;const q=document.getElementById("pages").value.trim();let inds=q?parseRanges(q,pdf.numPages):Array.from({length:pdf.numPages},(_,i)=>i);const urls=[];const zip=(await import("https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm")).default();for(const i of inds){const p=await pdf.getPage(i+1);const vp=p.getViewport({scale:1.7});const c=document.createElement("canvas");c.width=vp.width;c.height=vp.height;await p.render({canvasContext:c.getContext("2d"),viewport:vp}).promise;const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",+document.getElementById("quality").value));const name=`Siznora_Page_${i+1}.jpg`;zip.file(name,blob);if(inds.length<=10)urls.push({url:URL.createObjectURL(blob),name,label:`Download Page ${i+1}`})}const zb=new Blob([await zip.generateAsync({type:"uint8array"})],{type:"application/zip"});urls.push({url:URL.createObjectURL(zb),name:"Siznora_PDF_Pages.zip",label:"Download All as ZIP"});links(urls)}
  const actions={"pdf-compress":compressPDF,"pdf-merge":merge,"pdf-split":split,"pdf-organize":organize,"jpg-pdf":jpgpdf,"pdf-jpg":pdfjpg,"pdf-protect":protect,"pdf-watermark":watermark,"pdf-rotate":rotate};
