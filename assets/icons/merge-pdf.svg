@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="merge pdf">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#168cff"/><stop offset="1" stop-color="#3157e8"/></linearGradient></defs>
+<rect x="4" y="4" width="88" height="88" rx="25" fill="url(#g)"/>
+<path d="M14 20h28l8 8v28H14zM54 40h28v30H54z" fill="none" stroke="#fff" stroke-width="5"/><path d="M43 47h11m-5-6v12m-7 9 7 7 7-7" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+</svg>
