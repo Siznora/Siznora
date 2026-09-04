@@ -80,4 +80,30 @@
 <div><h3>More</h3><a href="organize-pdf.html">Organize PDF</a><a href="protect-pdf.html">Protect PDF</a><a href="watermark-pdf.html">Watermark PDF</a><a href="rotate-pdf.html">Rotate PDF</a></div>
 <div><h3>Legal</h3><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div></div>
 <div class="footer-bottom">© 2026 Siznora. All rights reserved. <span>Smaller Files. Better Performance.</span></div></footer>
-<script src="js/common.js"></script><script src="js/ui.js"></script></body></html>
+<script src="js/common.js"></script><script src="js/ui.js"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("toolSearch");
+    const toolCards = document.querySelectorAll(".tool-card");
+
+    if (!searchInput || !toolCards.length) return;
+
+    searchInput.addEventListener("input", function () {
+        const query = this.value.toLowerCase().trim();
+
+        toolCards.forEach(function (card) {
+            const searchText = (
+                card.getAttribute("data-search") || card.textContent
+            ).toLowerCase();
+
+            if (searchText.includes(query)) {
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>
