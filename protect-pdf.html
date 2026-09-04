@@ -18,4 +18,10 @@
 <section class="workspace" data-tool="pdf-protect"><div class="dropzone" data-input="fileInput"><input id="fileInput" type="file" accept="application/pdf"><div class="drop-icon">PDF</div><h2>Drop a PDF here</h2><p>or</p><button type="button" class="primary choose-btn">Choose PDF</button></div><div id="fileList" class="file-list"></div><div class="settings"><label>Password<input id="password" type="password" minlength="4" autocomplete="new-password"></label><label>Confirm password<input id="password2" type="password" minlength="4" autocomplete="new-password"></label></div><p class="notice">PDF password encryption depends on the browser library available. Siznora will never claim protection succeeded unless the generated file is actually encrypted.</p><button id="processBtn" class="primary action" disabled>Protect PDF</button><div id="status" class="status"></div><div id="result" class="result" hidden></div></section>
 </main>
 <footer><div class="footer-inner"><div><a class="brand" href="index.html"><img src="assets/logo.png" alt="Siznora"><span><b>Siznora</b><small>Smaller Files. Better Performance.</small></span></a><p>Your files are processed locally in your browser whenever possible.</p></div><div><h3>Tools</h3><a href="compress-pdf.html">Compress PDF</a><a href="merge-pdf.html">Merge PDF</a><a href="split-pdf.html">Split PDF</a><a href="pdf-to-jpg.html">PDF to JPG</a></div><div><h3>More</h3><a href="organize-pdf.html">Organize PDF</a><a href="protect-pdf.html">Protect PDF</a><a href="watermark-pdf.html">Watermark PDF</a><a href="rotate-pdf.html">Rotate PDF</a></div></div><div class="footer-bottom">© 2026 Siznora. All rights reserved.</div></footer>
-<script src="js/common.js"></script><script src="js/ui.js"></script><script src="js/pdf-tools.js"></script><script src="js/image-tools.js"></script></body></html>
+<script src="js/common.js"></script>
+<script src="js/ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-encrypt@1.2.0/dist/pdf-encrypt.umd.js"></script>
+<script src="js/pdf-tools.js"></script>
+</body>
+</html>
