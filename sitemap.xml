@@ -1,1 +1,69 @@
-<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://YOUR-DOMAIN.example/index.html</loc></url><url><loc>https://YOUR-DOMAIN.example/compress-pdf.html</loc></url><url><loc>https://YOUR-DOMAIN.example/merge-pdf.html</loc></url><url><loc>https://YOUR-DOMAIN.example/split-pdf.html</loc></url><url><loc>https://YOUR-DOMAIN.example/organize-pdf.html</loc></url><url><loc>https://YOUR-DOMAIN.example/jpg-to-pdf.html</loc></url><url><loc>https://YOUR-DOMAIN.example/pdf-to-jpg.html</loc></url><url><loc>https://YOUR-DOMAIN.example/protect-pdf.html</loc></url><url><loc>https://YOUR-DOMAIN.example/watermark-pdf.html</loc></url><url><loc>https://YOUR-DOMAIN.example/rotate-pdf.html</loc></url><url><loc>https://YOUR-DOMAIN.example/compress-image.html</loc></url><url><loc>https://YOUR-DOMAIN.example/resize-image.html</loc></url><url><loc>https://YOUR-DOMAIN.example/convert-image.html</loc></url></urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/compress-pdf.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/merge-pdf.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/split-pdf.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/organize-pdf.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/jpg-to-pdf.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/pdf-to-jpg.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/protect-pdf.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/watermark-pdf.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/rotate-pdf.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/compress-image.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/resize-image.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://siznora.github.io/Siznora/convert-image.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>
