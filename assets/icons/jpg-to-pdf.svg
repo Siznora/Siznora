@@ -1,1 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none"><defs><linearGradient id="g" x1="10" y1="8" x2="86" y2="88" gradientUnits="userSpaceOnUse"><stop stop-color="#7C3AED"/><stop offset=".55" stop-color="#4F7CFF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs><rect x="8" y="8" width="80" height="80" rx="24" fill="url(#g)"/><rect x="21" y="25" width="29" height="37" rx="5" fill="#fff"/><circle cx="30" cy="35" r="4" fill="#5B4BDB"/><path d="M25 54l8-9 6 6 5-5" stroke="#5B4BDB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M49 44h15M57 36l8 8-8 8" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="100%" height="100%">
+  <defs>
+    <linearGradient id="primeTile" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D957F3"/>
+      <stop offset="50%" stop-color="#8B4AF0"/>
+      <stop offset="100%" stop-color="#3D7BF3"/>
+    </linearGradient>
+    <linearGradient id="rimSpec" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glassFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.08"/>
+    </linearGradient>
+    <filter id="complexShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#5522A1" flood-opacity="0.3"/>
+    </filter>
+    <filter id="symbolNeon" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#D387FC" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="208" height="208" rx="44" fill="url(#primeTile)" filter="url(#complexShadow)"/>
+  <rect x="24" y="24" width="208" height="208" rx="44" fill="none" stroke="url(#rimSpec)" stroke-width="2.5"/>
+  <rect x="80" y="80" width="112" height="112" rx="16" fill="url(#glassFill)" filter="blur(3.5px)"/>
+
+  <g filter="url(#symbolNeon)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Image Left -->
+    <rect x="52" y="82" width="62" height="80" rx="10" fill="none" stroke="#FFFFFF" stroke-width="7"/>
+    <circle cx="72" cy="106" r="6" fill="#FFFFFF"/>
+    <path d="M62 148 L76 128 L86 138 L94 128 L100 148 Z" fill="#FFFFFF"/>
+
+    <!-- Arrow Center -->
+    <path d="M120 128 H138" stroke="#FFFFFF" stroke-width="8"/>
+    <path d="M132 120 L140 128 L132 136" fill="none" stroke="#FFFFFF" stroke-width="8"/>
+
+    <!-- PDF Doc Right -->
+    <path d="M148 82 H186 L202 98 V166 C202 171 197.5 175 192 175 H148 C142.5 175 138 171 138 166 V91 C138 86 142.5 82 148 82 Z" fill="none" stroke="#FFFFFF" stroke-width="7"/>
+    <path d="M186 82 V98 H202" fill="none" stroke="#FFFFFF" stroke-width="7"/>
+  </g>
+</svg>
