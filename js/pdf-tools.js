@@ -139,18 +139,28 @@ const sliderValue = document.getElementById("sliderValue");
 function updateSliderValue() {
   if (!compressionTarget || !sliderValue) return;
 
-  const min = Number(compressionTarget.min);
-  const max = Number(compressionTarget.max);
   const value = Number(compressionTarget.value);
+  const min = Number(compressionTarget.min) || 1;
+  const max = Number(compressionTarget.max) || 100;
 
-  const percent = ((value - min) / (max - min)) * 100;
+  const sliderRect = compressionTarget.getBoundingClientRect();
+  const valueRect = sliderValue.parentElement.getBoundingClientRect();
 
-  sliderValue.textContent = value + "%";
-  sliderValue.style.left = percent + "%";
+  const percent = (value - min) / (max - min);
+
+  const thumbX = percent * sliderRect.width;
+
+  const position = 
+    (sliderRect.left - valueRect.left) + thumbX;
+
+  sliderValue.textContent = `${value}%`;
+  sliderValue.style.left = `${position}px`;
 }
 
 if (compressionTarget) {
   compressionTarget.addEventListener("input", updateSliderValue);
+  window.addEventListener("resize", updateSliderValue);
+
   updateSliderValue();
 }
  async function protect(){
