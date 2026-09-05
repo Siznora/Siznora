@@ -1,1 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none"><defs><linearGradient id="g" x1="10" y1="8" x2="86" y2="88" gradientUnits="userSpaceOnUse"><stop stop-color="#7C3AED"/><stop offset=".55" stop-color="#4F7CFF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs><rect x="8" y="8" width="80" height="80" rx="24" fill="url(#g)"/><path d="M24 22h25l10 10v30H24V22Z" fill="#fff"/><path d="M49 22v12h10" stroke="#DDE7FF" stroke-width="3"/><path d="M64 48l9 4v9c0 8-5 12-9 14-4-2-9-6-9-14v-9l9-4Z" fill="#5B4BDB"/><rect x="61" y="59" width="6" height="7" rx="2" fill="#fff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="100%" height="100%">
+  <defs>
+    <linearGradient id="primeTile" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D957F3"/>
+      <stop offset="50%" stop-color="#8B4AF0"/>
+      <stop offset="100%" stop-color="#3D7BF3"/>
+    </linearGradient>
+    <linearGradient id="rimSpec" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glassFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.08"/>
+    </linearGradient>
+    <filter id="complexShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#5522A1" flood-opacity="0.3"/>
+    </filter>
+    <filter id="symbolNeon" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#D387FC" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="208" height="208" rx="44" fill="url(#primeTile)" filter="url(#complexShadow)"/>
+  <rect x="24" y="24" width="208" height="208" rx="44" fill="none" stroke="url(#rimSpec)" stroke-width="2.5"/>
+  <rect x="64" y="64" width="128" height="128" rx="20" fill="url(#glassFill)" filter="blur(3.5px)"/>
+
+  <g filter="url(#symbolNeon)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- PDF Doc Back -->
+    <path d="M72 58 H128 L154 84 V186 C154 191.5 149.5 196 144 196 H72 C66.5 196 62 191.5 62 186 V68 C62 62.5 66.5 58 72 58 Z" fill="none" stroke="#FFFFFF" stroke-width="7"/>
+    <path d="M128 58 V84 H154" fill="none" stroke="#FFFFFF" stroke-width="7"/>
+
+    <!-- Shield Foreground -->
+    <g transform="translate(152, 142)">
+      <path d="M0 -34 C16 -34 28 -44 28 -44 C28 -2 14 26 0 34 C-14 26 -28 -2 -28 -44 C-28 -44 -16 -34 0 -34 Z" fill="#8B4AF0" stroke="#FFFFFF" stroke-width="6"/>
+      <!-- Padlock -->
+      <rect x="-10" y="-6" width="20" height="18" rx="3" fill="#FFFFFF"/>
+      <path d="M-6 -6 V-14 C-6 -18 0 -20 6 -20 C12 -20 18 -18 18 -14 V-6" fill="none" stroke="#FFFFFF" stroke-width="4.5" transform="translate(-6, 0)"/>
+    </g>
+  </g>
+</svg>
