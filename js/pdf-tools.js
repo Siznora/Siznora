@@ -133,33 +133,41 @@ async function compressPDF() {
 
   return blob;
 }
-const compressionTarget = document.getElementById("compressionTarget");
-const sliderValue = document.getElementById("sliderValue");
+const compressionTarget =
+  document.getElementById("compressionTarget");
+
+const sliderValue =
+  document.getElementById("sliderValue");
 
 function updateSliderValue() {
   if (!compressionTarget || !sliderValue) return;
 
+  const min = Number(compressionTarget.min) || 10;
+  const max = Number(compressionTarget.max) || 90;
   const value = Number(compressionTarget.value);
-  const min = Number(compressionTarget.min) || 1;
-  const max = Number(compressionTarget.max) || 100;
-
-  const sliderRect = compressionTarget.getBoundingClientRect();
-  const valueRect = sliderValue.parentElement.getBoundingClientRect();
 
   const percent = (value - min) / (max - min);
 
-  const thumbX = percent * sliderRect.width;
+  const thumbSize = 24;
+  const trackWidth = compressionTarget.offsetWidth;
 
-  const position = 
-    (sliderRect.left - valueRect.left) + thumbX;
+  const usableWidth = trackWidth - thumbSize;
+  const x = (thumbSize / 2) + (percent * usableWidth);
 
+  sliderValue.style.left = `${x}px`;
   sliderValue.textContent = `${value}%`;
-  sliderValue.style.left = `${position}px`;
 }
 
 if (compressionTarget) {
-  compressionTarget.addEventListener("input", updateSliderValue);
-  window.addEventListener("resize", updateSliderValue);
+  compressionTarget.addEventListener(
+    "input",
+    updateSliderValue
+  );
+
+  window.addEventListener(
+    "resize",
+    updateSliderValue
+  );
 
   updateSliderValue();
 }
