@@ -41,13 +41,7 @@ async function compressPDF() {
     document.getElementById("compressionTarget")?.value || 75
   );
 
-  setStatus(
-    mode === "high"
-      ? "Applying high compression..."
-      : mode === "medium"
-      ? "Applying medium compression..."
-      : "Applying light compression..."
-  );
+  setStatus("Optimizing PDF...");
 
   /*
    * pdf-lib cannot directly recompress embedded
