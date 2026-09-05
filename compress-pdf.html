@@ -17,37 +17,63 @@
 <div class="tool-heading"><span class="badge">Siznora Workspace</span><h1>Compress PDF</h1><p>Reduce PDF file size while keeping useful quality.</p></div>
 <section class="workspace" data-tool="pdf-compress"><div class="dropzone" data-input="fileInput"><input id="fileInput" type="file" accept="application/pdf"><div class="drop-icon">PDF</div><h2>Drop your PDF here</h2><p>or</p><button type="button" class="primary choose-btn">Choose PDF</button><small>PDF only</small></div><div id="fileList" class="file-list"></div>
 <div class="settings compression-settings">
+<div class="settings compression-settings">
+
+  <h2>Compression Settings</h2>
 
   <div class="compression-header">
-    <label for="compressionTarget">Target size reduction</label>
-    <strong><span id="compressionValue">40</span>%</strong>
+    <label>Compression Level</label>
+  </div>
+
+  <div class="compression-levels">
+    <button type="button" class="compression-level active" data-level="low">Low</button>
+    <button type="button" class="compression-level" data-level="medium">Medium</button>
+    <button type="button" class="compression-level" data-level="high">High</button>
+  </div>
+
+  <div class="quality-row">
+    <strong>Quality: <span id="compressionValue">75</span>%</strong>
+    <strong><span id="qualityValue">75</span>%</strong>
   </div>
 
   <input
     id="compressionTarget"
     type="range"
     min="10"
-    max="80"
+    max="100"
     step="5"
-    value="40"
+    value="75"
   >
 
   <div class="compression-scale">
-    <span>10%</span>
-    <span>Balanced</span>
-    <span>80%</span>
+    <span>Low</span>
+    <span>High</span>
+  </div>
+
+  <div class="target-header">
+    <label>Target Size</label>
+  </div>
+
+  <div class="target-options">
+    <button type="button" class="target-option active" data-target="auto">
+      Auto
+    </button>
+
+    <button type="button" class="target-option" data-target="custom">
+      Custom
+    </button>
   </div>
 
   <div class="compression-info">
     <div>
-      <small>Original</small>
+      <small>Original Size</small>
       <strong id="originalSize">—</strong>
     </div>
 
     <div class="compression-arrow">→</div>
 
     <div>
-      <small>Target</small>
+      <small>Target Size</small>
       <strong id="targetSize">—</strong>
     </div>
   </div>
