@@ -205,4 +205,91 @@ async function compressPDF() {
  if(tool==="pdf-watermark")document.getElementById("wmPages")?.addEventListener("change",e=>document.getElementById("wmSelectedWrap").hidden=e.target.value!=="selected");
  if(tool==="pdf-rotate")document.getElementById("rotatePages")?.addEventListener("change",e=>document.getElementById("rotateSelectedWrap").hidden=e.target.value!=="selected");
  if(tool==="pdf-organize")input?.addEventListener("change",async()=>{const {default:pdfjs}=await import("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.5.136/build/pdf.min.mjs").catch(()=>({}));});
+/* Show compression settings only after PDF upload */
+if (tool === "pdf-compress") {
+
+  const compressionSettings =
+    document.getElementById("compressionSettings");
+
+  if (compressionSettings) {
+
+    // Initially hidden
+    compressionSettings.hidden = true;
+
+    // Watch for PDF selection
+    input?.addEventListener("change", () => {
+
+      if (files.length > 0) {
+        compressionSettings.hidden = false;
+
+        const originalSize =
+          document.getElementById("originalSize");
+
+        if (originalSize) {
+          originalSize.textContent =
+            Siznora.fmtSize(files[0].size);
+        }
+
+        const targetSize =
+          document.getElementById("targetSize");
+
+        if (targetSize) {
+          const slider =
+            Number(
+              document.getElementById("compressionTarget")?.value || 75
+            );
+
+          const estimated =
+            files[0].size * (1 - slider / 100);
+
+          targetSize.textContent =
+            Siznora.fmtSize(Math.max(0, estimated));
+        }
+      } else {
+        compressionSettings.hidden = true;
+      }
+
+    });
+  }
+}
+if (tool === "pdf-compress") {
+
+  const slider =
+    document.getElementById("compressionTarget");
+
+  const value =
+    document.getElementById("compressionValue");
+
+  const quality =
+    document.getElementById("qualityValue");
+
+  const targetSize =
+    document.getElementById("targetSize");
+
+  if (slider) {
+
+    slider.addEventListener("input", () => {
+
+      const percent = Number(slider.value);
+
+      if (value) {
+        value.textContent = percent;
+      }
+
+      if (quality) {
+        quality.textContent = percent;
+      }
+
+      if (files.length > 0 && targetSize) {
+
+        const estimated =
+          files[0].size * (1 - percent / 100);
+
+        targetSize.textContent =
+          Siznora.fmtSize(Math.max(0, estimated));
+      }
+    });
+
+  }
+}
 })();
