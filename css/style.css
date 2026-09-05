@@ -417,21 +417,22 @@ body.dark #compressionTarget::-moz-range-thumb {
 .slider-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 34px;
+  padding-top: 38px;
 }
 
-.slider-wrapper input[type="range"] {
+.slider-wrapper #compressionTarget {
   width: 100%;
-  margin: 0;
+  display: block;
 }
 
-.slider-value {
+.slider-wrapper .slider-value {
   position: absolute;
   top: 0;
   transform: translateX(-50%);
+  z-index: 5;
 
-  padding: 4px 9px;
-  border-radius: 8px;
+  padding: 4px 8px;
+  border-radius: 7px;
 
   font-size: 13px;
   font-weight: 700;
