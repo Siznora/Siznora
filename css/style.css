@@ -428,7 +428,6 @@ body.dark #compressionTarget::-moz-range-thumb {
 .slider-value {
   position: absolute;
   top: 0;
-  left: 60%;
   transform: translateX(-50%);
 
   padding: 4px 9px;
