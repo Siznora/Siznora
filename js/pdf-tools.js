@@ -136,20 +136,22 @@ async function compressPDF() {
 const compressionTarget = document.getElementById("compressionTarget");
 const sliderValue = document.getElementById("sliderValue");
 
-if (compressionTarget && sliderValue) {
-  function updateCompressionSlider() {
-    const value = Number(compressionTarget.value);
-    const min = Number(compressionTarget.min) || 0;
-    const max = Number(compressionTarget.max) || 100;
+function updateSliderValue() {
+  if (!compressionTarget || !sliderValue) return;
 
-    sliderValue.textContent = `${value}%`;
+  const min = Number(compressionTarget.min);
+  const max = Number(compressionTarget.max);
+  const value = Number(compressionTarget.value);
 
-    const percent = ((value - min) / (max - min)) * 100;
-    sliderValue.style.left = `${percent}%`;
-  }
+  const percent = ((value - min) / (max - min)) * 100;
 
-  compressionTarget.addEventListener("input", updateCompressionSlider);
-  updateCompressionSlider();
+  sliderValue.textContent = value + "%";
+  sliderValue.style.left = percent + "%";
+}
+
+if (compressionTarget) {
+  compressionTarget.addEventListener("input", updateSliderValue);
+  updateSliderValue();
 }
  async function protect(){
   const password=document.getElementById("password")?.value || "";
