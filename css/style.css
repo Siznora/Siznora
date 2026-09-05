@@ -414,3 +414,24 @@ body.dark #compressionTarget::-webkit-slider-thumb {
 body.dark #compressionTarget::-moz-range-thumb {
   border-color: #17182a;
 }
+.compression-slider-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 38px;
+}
+
+.compression-slider-wrap input[type="range"] {
+  width: 100%;
+  display: block;
+}
+
+#sliderValue {
+  position: absolute;
+  top: 0;
+  left: 75%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+  pointer-events: none;
+}
