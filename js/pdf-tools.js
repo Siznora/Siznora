@@ -89,7 +89,7 @@ async function compressPDF() {
 
   if (originalSizeEl) {
     originalSizeEl.textContent =
-      formatBytes(originalSize);
+      Siznora.fmtSize(originalSize)
   }
 
   // Update Target Size
@@ -98,7 +98,7 @@ async function compressPDF() {
 
   if (targetSizeEl) {
     targetSizeEl.textContent =
-      formatBytes(outputSize);
+      Siznora.fmtSize(outputSize)
   }
 
   // Update quality/recommendation text
