@@ -17,12 +17,11 @@
 <div class="tool-heading"><span class="badge">Siznora Workspace</span><h1>Compress PDF</h1><p>Reduce PDF file size while keeping useful quality.</p></div>
 <section class="workspace" data-tool="pdf-compress"><div class="dropzone" data-input="fileInput"><input id="fileInput" type="file" accept="application/pdf"><div class="drop-icon">PDF</div><h2>Drop your PDF here</h2><p>or</p><button type="button" class="primary choose-btn">Choose PDF</button><small>PDF only</small></div><div id="fileList" class="file-list"></div>
 <div id="compressionSettings" class="settings compression-settings" hidden>
+<div class="quality-row">
+  <strong>Quality</strong>
+</div>
 
-  <div class="quality-row">
-    <strong>Quality: <span id="compressionValue">75</span>%</strong>
-    <strong><span id="qualityValue">75</span>%</strong>
-  </div>
-
+<div class="compression-slider-wrap">
   <input
     id="compressionTarget"
     type="range"
@@ -31,11 +30,8 @@
     step="5"
     value="75"
   >
-
-  <div class="compression-scale">
-    <span>1%</span>
-    <span>100%</span>
-  </div>
+  <span id="sliderValue">75%</span>
+</div>
 
   <div class="compression-info">
     <div>
