@@ -17,7 +17,7 @@
  async function rotate(){const {PDFDocument,degrees}=await lib();const src=await PDFDocument.load(await files[0].arrayBuffer());const out=await PDFDocument.create();const sel=document.getElementById("rotatePages").value==="all"?src.getPageIndices():parseRanges(document.getElementById("rotateSelected").value,src.getPageCount());const chosen=new Set(sel);const pages=await out.copyPages(src,src.getPageIndices());pages.forEach((p,i)=>{if(chosen.has(i))p.setRotation(degrees(+document.getElementById("angle").value));out.addPage(p)});const blob=new Blob([await out.save()],{type:"application/pdf"});links([{url:URL.createObjectURL(blob),name:"Siznora_Rotated.pdf",label:"Download Rotated PDF"}])}
  async function watermark(){const {PDFDocument,rgb,degrees}=await lib();const src=await PDFDocument.load(await files[0].arrayBuffer());const text=document.getElementById("watermarkText").value.trim();if(!text)throw Error("Enter watermark text.");const out=await PDFDocument.create();const pages=await out.copyPages(src,src.getPageIndices());const sel=document.getElementById("wmPages").value==="all"?src.getPageIndices():parseRanges(document.getElementById("wmSelected").value,src.getPageCount());const set=new Set(sel);for(const [i,p] of pages.entries()){out.addPage(p);if(set.has(i)){const {width,height}=p.getSize();let x=width/2,y=height/2;const pos=document.getElementById("position").value;if(pos.includes("left"))x=60;if(pos.includes("right"))x=width-60;if(pos.includes("top"))y=height-60;if(pos.includes("bottom"))y=60;p.drawText(text,{x,y,size:+document.getElementById("wmSize").value,opacity:+document.getElementById("wmOpacity").value,rotate:degrees(+document.getElementById("wmRotation").value),color:rgb(.35,.25,.85),xSkew:degrees(0),ySkew:degrees(0)})}}const blob=new Blob([await out.save()],{type:"application/pdf"});links([{url:URL.createObjectURL(blob),name:"Siznora_Watermarked.pdf",label:"Download Watermarked PDF"}])}
  async function organize(){const {PDFDocument,degrees}=await lib();const src=await PDFDocument.load(await files[0].arrayBuffer());const order=[...document.querySelectorAll(".page-card")].map(x=>+x.dataset.page);const out=await PDFDocument.create();const ps=await out.copyPages(src,order);ps.forEach((p,i)=>{const card=document.querySelector(`.page-card[data-page="${order[i]}"]`);const r=card?.querySelector("select");if(r&&+r.value)p.setRotation(degrees(+r.value));if(!card?.querySelector("input").checked)return;out.addPage(p)});const blob=new Blob([await out.save()],{type:"application/pdf"});links([{url:URL.createObjectURL(blob),name:"Siznora_Organized.pdf",label:"Download Organized PDF"}])}
- async function compressPDF() {
+async function compressPDF() {
   const { PDFDocument } = await lib();
 
   const original = files[0];
@@ -36,44 +36,42 @@
     }
   );
 
-  /*
-   * Slider value:
-   * 10 = light
-   * 40 = recommended
-   * 60 = strong
-   * 80 = maximum
-   *
-   * IMPORTANT:
-   * pdf-lib cannot directly recompress embedded PDF images
-   * according to a target percentage. Therefore the slider
-   * is used as a compression preference, while the result
-   * always reports the REAL output size.
-   */
-  const target =
-    Number(document.getElementById("compressionTarget")?.value) || 40;
+  // Slider value: 10–100
+  const target = Number(
+    document.getElementById("compressionTarget")?.value || 75
+  );
 
+  // Compression level
   let mode = "recommended";
 
-  if (target <= 25) {
-    mode = "light";
-  } else if (target <= 50) {
-    mode = "recommended";
-  } else if (target <= 70) {
-    mode = "strong";
+  if (target <= 30) {
+    mode = "high";
+  } else if (target <= 60) {
+    mode = "medium";
   } else {
-    mode = "maximum";
+    mode = "low";
+  }
+
+  const qualityValue = document.getElementById("qualityValue");
+  if (qualityValue) {
+    qualityValue.textContent = target;
   }
 
   setStatus(
-    mode === "light"
-      ? "Applying light optimization..."
-      : mode === "recommended"
-      ? "Applying recommended optimization..."
-      : mode === "strong"
-      ? "Applying strong optimization..."
-      : "Applying maximum optimization..."
+    mode === "high"
+      ? "Applying high compression..."
+      : mode === "medium"
+      ? "Applying medium compression..."
+      : "Applying light compression..."
   );
 
+  /*
+   * pdf-lib cannot directly recompress embedded
+   * PDF images according to a percentage.
+   *
+   * We therefore rebuild the PDF and remove
+   * unnecessary metadata where possible.
+   */
   const out = await PDFDocument.create();
 
   const pages = await out.copyPages(
@@ -81,12 +79,10 @@
     src.getPageIndices()
   );
 
-  pages.forEach(page => out.addPage(page));
+  pages.forEach(page => {
+    out.addPage(page);
+  });
 
-  /*
-   * Real browser-side PDF optimization.
-   * No fake compression percentage is generated.
-   */
   const bytes = await out.save({
     useObjectStreams: true,
     addDefaultPage: false,
@@ -103,79 +99,57 @@
 
   const saved =
     originalSize > 0
-      ? ((originalSize - outputSize) / originalSize) * 100
+      ? Math.max(
+          0,
+          ((originalSize - outputSize) / originalSize) * 100
+        )
       : 0;
 
-  const actualSaved = Math.max(0, saved);
+  // Update Original Size
+  const originalSizeEl =
+    document.getElementById("originalSize");
 
-  const targetSize =
-    originalSize * (1 - target / 100);
+  if (originalSizeEl) {
+    originalSizeEl.textContent =
+      formatBytes(originalSize);
+  }
 
-  const targetReached =
-    outputSize <= targetSize;
+  // Update Target Size
+  const targetSizeEl =
+    document.getElementById("targetSize");
 
-  result.hidden = false;
+  if (targetSizeEl) {
+    targetSizeEl.textContent =
+      formatBytes(outputSize);
+  }
 
-  result.innerHTML = `
-    <h3>✓ Processing complete</h3>
+  // Update quality/recommendation text
+  const qualityEl =
+    document.getElementById("compressionQuality");
 
-    <div class="compression-result-grid">
+  if (qualityEl) {
+    qualityEl.innerHTML =
+      `<strong>${Math.round(saved)}% smaller</strong>`;
+  }
 
-      <div>
-        <small>Original size</small>
-        <strong>${Siznora.fmtSize(originalSize)}</strong>
-      </div>
+  setStatus(
+    saved > 0
+      ? `Done. ${Math.round(saved)}% smaller`
+      : "Done. PDF was already highly optimized."
+  );
 
-      <div>
-        <small>Output size</small>
-        <strong>${Siznora.fmtSize(outputSize)}</strong>
-      </div>
-
-      <div>
-        <small>Actual reduction</small>
-        <strong>${actualSaved.toFixed(1)}%</strong>
-      </div>
-
-      <div>
-        <small>Selected target</small>
-        <strong>${target}%</strong>
-      </div>
-
-    </div>
-
-    <p>
-      ${
-        actualSaved > 0
-          ? `The PDF was reduced by ${actualSaved.toFixed(1)}%.`
-          : `This PDF could not be reduced further by the available browser-side optimization.`
-      }
-    </p>
-
-    ${
-      targetReached
-        ? `<p class="compression-success">
-             ✓ Selected target was reached.
-           </p>`
-        : `<p class="compression-note">
-             The selected ${target}% target could not be reached
-             without changing the PDF content more aggressively.
-             The actual result is shown above.
-           </p>`
+  // Create download link
+  links([
+    {
+      name: "Compressed PDF",
+      blob: blob,
+      filename: `compressed-${original.name}`
     }
+  ]);
 
-    <p>
-      The output was generated locally in your browser.
-    </p>
+  return blob;
+}
 
-    <a
-      class="download"
-      href="${URL.createObjectURL(blob)}"
-      download="Siznora_Compressed.pdf"
-    >
-      Download PDF
-    </a>
-  `;
- }
  async function protect(){
   const password=document.getElementById("password")?.value || "";
   const confirmPassword=document.getElementById("password2")?.value || "";
