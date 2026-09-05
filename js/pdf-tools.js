@@ -41,22 +41,6 @@ async function compressPDF() {
     document.getElementById("compressionTarget")?.value || 75
   );
 
-  // Compression level
-  let mode = "recommended";
-
-  if (target <= 30) {
-    mode = "high";
-  } else if (target <= 60) {
-    mode = "medium";
-  } else {
-    mode = "low";
-  }
-
-  const qualityValue = document.getElementById("qualityValue");
-  if (qualityValue) {
-    qualityValue.textContent = target;
-  }
-
   setStatus(
     mode === "high"
       ? "Applying high compression..."
@@ -149,7 +133,24 @@ async function compressPDF() {
 
   return blob;
 }
+const compressionTarget = document.getElementById("compressionTarget");
+const sliderValue = document.getElementById("sliderValue");
 
+if (compressionTarget && sliderValue) {
+  function updateCompressionSlider() {
+    const value = Number(compressionTarget.value);
+    const min = Number(compressionTarget.min) || 0;
+    const max = Number(compressionTarget.max) || 100;
+
+    sliderValue.textContent = `${value}%`;
+
+    const percent = ((value - min) / (max - min)) * 100;
+    sliderValue.style.left = `${percent}%`;
+  }
+
+  compressionTarget.addEventListener("input", updateCompressionSlider);
+  updateCompressionSlider();
+}
  async function protect(){
   const password=document.getElementById("password")?.value || "";
   const confirmPassword=document.getElementById("password2")?.value || "";
