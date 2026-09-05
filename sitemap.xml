@@ -2,77 +2,77 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://siznora.github.io/Siznora/</loc>
+    <loc>https://siznora.github.io/siznora/</loc>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/compress-pdf.html</loc>
+    <loc>https://siznora.github.io/siznora/compress-pdf.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/merge-pdf.html</loc>
+    <loc>https://siznora.github.io/siznora/merge-pdf.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/split-pdf.html</loc>
+    <loc>https://siznora.github.io/siznora/split-pdf.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/organize-pdf.html</loc>
+    <loc>https://siznora.github.io/siznora/organize-pdf.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/jpg-to-pdf.html</loc>
+    <loc>https://siznora.github.io/siznora/jpg-to-pdf.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/pdf-to-jpg.html</loc>
+    <loc>https://siznora.github.io/siznora/pdf-to-jpg.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/protect-pdf.html</loc>
+    <loc>https://siznora.github.io/siznora/protect-pdf.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/watermark-pdf.html</loc>
+    <loc>https://siznora.github.io/siznora/watermark-pdf.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/rotate-pdf.html</loc>
+    <loc>https://siznora.github.io/siznora/rotate-pdf.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/compress-image.html</loc>
+    <loc>https://siznora.github.io/siznora/compress-image.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/resize-image.html</loc>
+    <loc>https://siznora.github.io/siznora/resize-image.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://siznora.github.io/Siznora/convert-image.html</loc>
+    <loc>https://siznora.github.io/siznora/convert-image.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-  <loc>https://siznora.github.io/Siznora/privacy.html</loc>
+  <loc>https://siznora.github.io/siznora/privacy.html</loc>
   <priority>0.5</priority>
 </url>
 
 <url>
-  <loc>https://siznora.github.io/Siznora/terms.html</loc>
+  <loc>https://siznora.github.io/siznora/terms.html</loc>
   <priority>0.5</priority>
 </url>
   
