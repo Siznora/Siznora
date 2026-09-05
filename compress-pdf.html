@@ -16,7 +16,47 @@
 <main class="tool-page"><div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> Compress PDF</div>
 <div class="tool-heading"><span class="badge">Siznora Workspace</span><h1>Compress PDF</h1><p>Reduce PDF file size while keeping useful quality.</p></div>
 <section class="workspace" data-tool="pdf-compress"><div class="dropzone" data-input="fileInput"><input id="fileInput" type="file" accept="application/pdf"><div class="drop-icon">PDF</div><h2>Drop your PDF here</h2><p>or</p><button type="button" class="primary choose-btn">Choose PDF</button><small>PDF only</small></div><div id="fileList" class="file-list"></div>
-<div class="settings"><label>Compression level<select id="level"><option value="recommended">Recommended</option><option value="strong">Strong</option><option value="maximum">Maximum</option></select></label></div>
+<div class="settings compression-settings">
+
+  <div class="compression-header">
+    <label for="compressionTarget">Target size reduction</label>
+    <strong><span id="compressionValue">40</span>%</strong>
+  </div>
+
+  <input
+    id="compressionTarget"
+    type="range"
+    min="10"
+    max="80"
+    step="5"
+    value="40"
+  >
+
+  <div class="compression-scale">
+    <span>10%</span>
+    <span>Balanced</span>
+    <span>80%</span>
+  </div>
+
+  <div class="compression-info">
+    <div>
+      <small>Original</small>
+      <strong id="originalSize">—</strong>
+    </div>
+
+    <div class="compression-arrow">→</div>
+
+    <div>
+      <small>Target</small>
+      <strong id="targetSize">—</strong>
+    </div>
+  </div>
+
+  <div class="compression-quality" id="compressionQuality">
+    Recommended compression
+  </div>
+
+</div>
 <button id="processBtn" class="primary action" disabled>Compress PDF</button><div id="status" class="status" aria-live="polite"></div><div id="result" class="result" hidden></div></section>
 </main>
 <footer><div class="footer-inner"><div><a class="brand" href="index.html"><img src="assets/logo.png" alt="Siznora"><span><b>Siznora</b><small>Smaller Files. Better Performance.</small></span></a><p>Your files are processed locally in your browser whenever possible.</p></div><div><h3>Tools</h3><a href="compress-pdf.html">Compress PDF</a><a href="merge-pdf.html">Merge PDF</a><a href="split-pdf.html">Split PDF</a><a href="pdf-to-jpg.html">PDF to JPG</a></div><div><h3>More</h3><a href="organize-pdf.html">Organize PDF</a><a href="protect-pdf.html">Protect PDF</a><a href="watermark-pdf.html">Watermark PDF</a><a href="rotate-pdf.html">Rotate PDF</a></div></div><div class="footer-bottom">© 2026 Siznora. All rights reserved.</div></footer>
