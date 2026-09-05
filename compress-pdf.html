@@ -17,17 +17,6 @@
 <div class="tool-heading"><span class="badge">Siznora Workspace</span><h1>Compress PDF</h1><p>Reduce PDF file size while keeping useful quality.</p></div>
 <section class="workspace" data-tool="pdf-compress"><div class="dropzone" data-input="fileInput"><input id="fileInput" type="file" accept="application/pdf"><div class="drop-icon">PDF</div><h2>Drop your PDF here</h2><p>or</p><button type="button" class="primary choose-btn">Choose PDF</button><small>PDF only</small></div><div id="fileList" class="file-list"></div>
 <div id="compressionSettings" class="settings compression-settings" hidden>
-  <h2>Compression Settings</h2>
-
-  <div class="compression-header">
-    <label>Compression Level</label>
-  </div>
-
-  <div class="compression-levels">
-    <button type="button" class="compression-level active" data-level="low">Low</button>
-    <button type="button" class="compression-level" data-level="medium">Medium</button>
-    <button type="button" class="compression-level" data-level="high">High</button>
-  </div>
 
   <div class="quality-row">
     <strong>Quality: <span id="compressionValue">75</span>%</strong>
@@ -46,20 +35,6 @@
   <div class="compression-scale">
     <span>Low</span>
     <span>High</span>
-  </div>
-
-  <div class="target-header">
-    <label>Target Size</label>
-  </div>
-
-  <div class="target-options">
-    <button type="button" class="target-option active" data-target="auto">
-      Auto
-    </button>
-
-    <button type="button" class="target-option" data-target="custom">
-      Custom
-    </button>
   </div>
 
   <div class="compression-info">
