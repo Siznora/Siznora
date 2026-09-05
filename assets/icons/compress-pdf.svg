@@ -1,1 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none"><defs><linearGradient id="g" x1="10" y1="8" x2="86" y2="88" gradientUnits="userSpaceOnUse"><stop stop-color="#7C3AED"/><stop offset=".55" stop-color="#4F7CFF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs><rect x="8" y="8" width="80" height="80" rx="24" fill="url(#g)"/><path d="M31 22h23l12 12v40H31V22Z" fill="#fff"/><path d="M54 22v14h12" stroke="#DDE7FF" stroke-width="3"/><path d="M43 47v18M35 57l8 8 8-8" stroke="#5B4BDB" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="100%" height="100%">
+  <defs>
+    <linearGradient id="primeTile" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D957F3"/>
+      <stop offset="50%" stop-color="#8B4AF0"/>
+      <stop offset="100%" stop-color="#3D7BF3"/>
+    </linearGradient>
+    <linearGradient id="rimSpec" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glassFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.05"/>
+    </linearGradient>
+    <filter id="complexShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#5522A1" flood-opacity="0.3"/>
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#12042C" flood-opacity="0.15"/>
+    </filter>
+    <filter id="symbolNeon" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#D387FC" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="208" height="208" rx="44" fill="url(#primeTile)" filter="url(#complexShadow)"/>
+  <rect x="24" y="24" width="208" height="208" rx="44" fill="none" stroke="url(#rimSpec)" stroke-width="2.5"/>
+  <rect x="64" y="64" width="128" height="128" rx="20" fill="url(#glassFill)" filter="blur(3px)"/>
+
+  <g filter="url(#symbolNeon)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- PDF Document -->
+    <path d="M86 58 H146 L174 86 V186 C174 191.5 169.5 196 164 196 H86 C80.5 196 76 191.5 76 186 V68 C76 62.5 80.5 58 86 58 Z" fill="none" stroke="#FFFFFF" stroke-width="8"/>
+    <path d="M146 58 V86 H174" fill="none" stroke="#FFFFFF" stroke-width="8"/>
+    
+    <!-- Central PDF Mark -->
+    <path d="M106 142 C106 130 120 120 126 132 C132 144 146 134 146 142 C146 148 138 150 126 140 C114 150 106 148 106 142 Z" fill="none" stroke="#FFFFFF" stroke-width="7"/>
+
+    <!-- Arrows (Left Inward) -->
+    <path d="M42 127 H68" stroke="#FFFFFF" stroke-width="8"/>
+    <path d="M58 117 L68 127 L58 137" fill="none" stroke="#FFFFFF" stroke-width="8"/>
+    <!-- Arrows (Right Inward) -->
+    <path d="M214 127 H188" stroke="#FFFFFF" stroke-width="8"/>
+    <path d="M198 117 L188 127 L198 137" fill="none" stroke="#FFFFFF" stroke-width="8"/>
+  </g>
+</svg>
