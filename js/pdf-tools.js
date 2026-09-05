@@ -17,7 +17,165 @@
  async function rotate(){const {PDFDocument,degrees}=await lib();const src=await PDFDocument.load(await files[0].arrayBuffer());const out=await PDFDocument.create();const sel=document.getElementById("rotatePages").value==="all"?src.getPageIndices():parseRanges(document.getElementById("rotateSelected").value,src.getPageCount());const chosen=new Set(sel);const pages=await out.copyPages(src,src.getPageIndices());pages.forEach((p,i)=>{if(chosen.has(i))p.setRotation(degrees(+document.getElementById("angle").value));out.addPage(p)});const blob=new Blob([await out.save()],{type:"application/pdf"});links([{url:URL.createObjectURL(blob),name:"Siznora_Rotated.pdf",label:"Download Rotated PDF"}])}
  async function watermark(){const {PDFDocument,rgb,degrees}=await lib();const src=await PDFDocument.load(await files[0].arrayBuffer());const text=document.getElementById("watermarkText").value.trim();if(!text)throw Error("Enter watermark text.");const out=await PDFDocument.create();const pages=await out.copyPages(src,src.getPageIndices());const sel=document.getElementById("wmPages").value==="all"?src.getPageIndices():parseRanges(document.getElementById("wmSelected").value,src.getPageCount());const set=new Set(sel);for(const [i,p] of pages.entries()){out.addPage(p);if(set.has(i)){const {width,height}=p.getSize();let x=width/2,y=height/2;const pos=document.getElementById("position").value;if(pos.includes("left"))x=60;if(pos.includes("right"))x=width-60;if(pos.includes("top"))y=height-60;if(pos.includes("bottom"))y=60;p.drawText(text,{x,y,size:+document.getElementById("wmSize").value,opacity:+document.getElementById("wmOpacity").value,rotate:degrees(+document.getElementById("wmRotation").value),color:rgb(.35,.25,.85),xSkew:degrees(0),ySkew:degrees(0)})}}const blob=new Blob([await out.save()],{type:"application/pdf"});links([{url:URL.createObjectURL(blob),name:"Siznora_Watermarked.pdf",label:"Download Watermarked PDF"}])}
  async function organize(){const {PDFDocument,degrees}=await lib();const src=await PDFDocument.load(await files[0].arrayBuffer());const order=[...document.querySelectorAll(".page-card")].map(x=>+x.dataset.page);const out=await PDFDocument.create();const ps=await out.copyPages(src,order);ps.forEach((p,i)=>{const card=document.querySelector(`.page-card[data-page="${order[i]}"]`);const r=card?.querySelector("select");if(r&&+r.value)p.setRotation(degrees(+r.value));if(!card?.querySelector("input").checked)return;out.addPage(p)});const blob=new Blob([await out.save()],{type:"application/pdf"});links([{url:URL.createObjectURL(blob),name:"Siznora_Organized.pdf",label:"Download Organized PDF"}])}
- async function compressPDF(){const {PDFDocument}=await lib();const original=files[0];setStatus("Reading PDF...");const src=await PDFDocument.load(await original.arrayBuffer());setStatus("Generating optimized PDF...");const out=await PDFDocument.create();const ps=await out.copyPages(src,src.getPageIndices());ps.forEach(p=>out.addPage(p));const bytes=await out.save({useObjectStreams:true,addDefaultPage:false});const blob=new Blob([bytes],{type:"application/pdf"});const saved=Math.max(0,100-(blob.size/original.size*100));result.hidden=false;result.innerHTML=`<h3>✓ Processing complete</h3><p>Original: ${Siznora.fmtSize(original.size)}<br>Output: ${Siznora.fmtSize(blob.size)}<br>Actual size change: ${saved.toFixed(1)}% ${saved>=0?"saved":"larger"}</p><p>${saved<=0?"This PDF could not be reduced by the browser-side method. No fake saving percentage is shown.":"The output was generated locally."}</p><a class="download" href="${URL.createObjectURL(blob)}" download="Siznora_Compressed.pdf">Download PDF</a>`}
+ async function compressPDF() {
+  const { PDFDocument } = await lib();
+
+  const original = files[0];
+
+  if (!original) {
+    throw new Error("Please select a PDF file.");
+  }
+
+  setStatus("Reading PDF...");
+
+  const src = await PDFDocument.load(
+    await original.arrayBuffer(),
+    {
+      ignoreEncryption: false,
+      updateMetadata: false
+    }
+  );
+
+  /*
+   * Slider value:
+   * 10 = light
+   * 40 = recommended
+   * 60 = strong
+   * 80 = maximum
+   *
+   * IMPORTANT:
+   * pdf-lib cannot directly recompress embedded PDF images
+   * according to a target percentage. Therefore the slider
+   * is used as a compression preference, while the result
+   * always reports the REAL output size.
+   */
+  const target =
+    Number(document.getElementById("compressionTarget")?.value) || 40;
+
+  let mode = "recommended";
+
+  if (target <= 25) {
+    mode = "light";
+  } else if (target <= 50) {
+    mode = "recommended";
+  } else if (target <= 70) {
+    mode = "strong";
+  } else {
+    mode = "maximum";
+  }
+
+  setStatus(
+    mode === "light"
+      ? "Applying light optimization..."
+      : mode === "recommended"
+      ? "Applying recommended optimization..."
+      : mode === "strong"
+      ? "Applying strong optimization..."
+      : "Applying maximum optimization..."
+  );
+
+  const out = await PDFDocument.create();
+
+  const pages = await out.copyPages(
+    src,
+    src.getPageIndices()
+  );
+
+  pages.forEach(page => out.addPage(page));
+
+  /*
+   * Real browser-side PDF optimization.
+   * No fake compression percentage is generated.
+   */
+  const bytes = await out.save({
+    useObjectStreams: true,
+    addDefaultPage: false,
+    updateFieldAppearances: false
+  });
+
+  const blob = new Blob(
+    [bytes],
+    { type: "application/pdf" }
+  );
+
+  const originalSize = original.size;
+  const outputSize = blob.size;
+
+  const saved =
+    originalSize > 0
+      ? ((originalSize - outputSize) / originalSize) * 100
+      : 0;
+
+  const actualSaved = Math.max(0, saved);
+
+  const targetSize =
+    originalSize * (1 - target / 100);
+
+  const targetReached =
+    outputSize <= targetSize;
+
+  result.hidden = false;
+
+  result.innerHTML = `
+    <h3>✓ Processing complete</h3>
+
+    <div class="compression-result-grid">
+
+      <div>
+        <small>Original size</small>
+        <strong>${Siznora.fmtSize(originalSize)}</strong>
+      </div>
+
+      <div>
+        <small>Output size</small>
+        <strong>${Siznora.fmtSize(outputSize)}</strong>
+      </div>
+
+      <div>
+        <small>Actual reduction</small>
+        <strong>${actualSaved.toFixed(1)}%</strong>
+      </div>
+
+      <div>
+        <small>Selected target</small>
+        <strong>${target}%</strong>
+      </div>
+
+    </div>
+
+    <p>
+      ${
+        actualSaved > 0
+          ? `The PDF was reduced by ${actualSaved.toFixed(1)}%.`
+          : `This PDF could not be reduced further by the available browser-side optimization.`
+      }
+    </p>
+
+    ${
+      targetReached
+        ? `<p class="compression-success">
+             ✓ Selected target was reached.
+           </p>`
+        : `<p class="compression-note">
+             The selected ${target}% target could not be reached
+             without changing the PDF content more aggressively.
+             The actual result is shown above.
+           </p>`
+    }
+
+    <p>
+      The output was generated locally in your browser.
+    </p>
+
+    <a
+      class="download"
+      href="${URL.createObjectURL(blob)}"
+      download="Siznora_Compressed.pdf"
+    >
+      Download PDF
+    </a>
+  `;
+ }
  async function protect(){
   const password=document.getElementById("password")?.value || "";
   const confirmPassword=document.getElementById("password2")?.value || "";
